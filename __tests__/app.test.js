@@ -64,6 +64,24 @@ describe('app routes', () => {
         });
       });
   });
+  it('gets a recipe by id', async() => {
+    const recipe = await Recipe.create(
+      { name: 'cookies', directions: ['throw in freezer'] }
+    );
+
+    return request(app)
+      .get(`/api/v1/recipes/${recipe._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: recipe._id.toString(),
+          name: recipe.name,
+          directions: ['throw in freezer'],
+          __v: recipe.__v
+        });
+      });
+  });
+      
+ 
 
   it('updates a recipe by id', async() => {
     const recipe = await Recipe.create({
@@ -90,6 +108,22 @@ describe('app routes', () => {
             'bake for 10 minutes'
           ],
           __v: 0
+        });
+      });
+  });
+  it('can delete a recipe with DELETE', async() => {
+    const recipe = await Recipe.create({
+      name: 'cookies', directions: ['throw in freezer'] 
+    });
+
+    return request(app)
+      .delete(`/api/v1/recipes/${recipe._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: recipe._id.toString(),
+          name: recipe.name,
+          directions: ['throw in freezer'],
+          __v: recipe.__v
         });
       });
   });
