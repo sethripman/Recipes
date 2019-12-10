@@ -42,7 +42,7 @@ describe('app routes', () => {
             'put dough on cookie sheet',
             'bake for 10 minutes'
           ],
-          ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
           __v: 0
         });
       });
@@ -78,7 +78,7 @@ describe('app routes', () => {
           _id: recipe._id.toString(),
           name: recipe.name,
           directions: ['throw in freezer'],
-          ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
           __v: recipe.__v
         });
       });
@@ -111,7 +111,7 @@ describe('app routes', () => {
             'put dough on cookie sheet',
             'bake for 10 minutes'
           ],
-          ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
           __v: 0
         });
       });
@@ -128,7 +128,7 @@ describe('app routes', () => {
           _id: recipe._id.toString(),
           name: recipe.name,
           directions: ['throw in freezer'],
-          ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
           __v: recipe.__v
         });
       });
