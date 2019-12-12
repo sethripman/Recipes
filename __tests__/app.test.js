@@ -30,7 +30,7 @@ describe('app routes', () => {
           'put dough on cookie sheet',
           'bake for 10 minutes'
         ],
-        ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }]
+        ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }]
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -42,7 +42,7 @@ describe('app routes', () => {
             'put dough on cookie sheet',
             'bake for 10 minutes'
           ],
-          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
           __v: 0
         });
       });
@@ -68,7 +68,7 @@ describe('app routes', () => {
   });
   it('gets a recipe by id', async() => {
     const recipe = await Recipe.create(
-      { name: 'cookies', directions: ['throw in freezer'], ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }] }
+      { name: 'cookies', directions: ['throw in freezer'], ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }] }
     );
 
     return request(app)
@@ -78,7 +78,7 @@ describe('app routes', () => {
           _id: recipe._id.toString(),
           name: recipe.name,
           directions: ['throw in freezer'],
-          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
           __v: recipe.__v
         });
       });
@@ -95,7 +95,7 @@ describe('app routes', () => {
         'put dough on cookie sheet',
         'bake for 10 minutes'
       ],
-      ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }]
+      ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }]
     });
 
     return request(app)
@@ -111,14 +111,14 @@ describe('app routes', () => {
             'put dough on cookie sheet',
             'bake for 10 minutes'
           ],
-          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
           __v: 0
         });
       });
   });
   it('can delete a recipe with DELETE', async() => {
     const recipe = await Recipe.create({
-      name: 'cookies', directions: ['throw in freezer'], ingredients: [{ amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }] 
+      name: 'cookies', directions: ['throw in freezer'], ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }] 
     });
 
     return request(app)
@@ -128,7 +128,7 @@ describe('app routes', () => {
           _id: recipe._id.toString(),
           name: recipe.name,
           directions: ['throw in freezer'],
-          ingredients: [{ _id: expect.any(String), amount: 3, measurement: '5 teaspoons', name: 'Brown Suger' }],
+          ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
           __v: recipe.__v
         });
       });
