@@ -26,53 +26,47 @@ describe('app routes', () => {
         'put dough on cookie sheet',
         'bake for 10 minutes'
       ], ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }] });
-    event = await Event.create([
-      {
-        recipe: recipe._id,
-        dateOfEvent: new Date(),
-        notes: 'Grilled rubber would have been better',
-        rating: 1
-      },
+    event = await Event.create(
       {
         recipe: recipe._id,
         dateOfEvent: new Date(),
         notes: 'Could have been better',
         rating: 3
       },
-    ]);
+    );
   });
 
   afterAll(() => {
     return mongoose.connection.close();
   });
 
-  it('creates an Event', () => {
+  it('creates an event', () => {
     return request(app)
       .post('/api/v1/events')
       .send({
         recipe: recipe._id,
-        dateOfEvent: new Date(),
-        notes: 'about as good as raw bacon',
-        rating: 2
+        dateOfEvent: Date.now(),
+        notes: 'Could have been better',
+        rating: 3
       })
       .then(res => {
         expect(res.body).toEqual({
-          recipe: recipe._id,
-          dateOfEvent: Date.now(),
-          notes: 'about as good as raw bacon',
-          rating: 2,
+          _id: expect.any(String),
+          recipe: recipe._id.toString(),
+          dateOfEvent: expect.any(String),
+          notes: 'Could have been better',
+          rating: 3,
           __v: 0
-
         });
       });
   });
 
   it('gets all events', async() => {
     const events = await Event.create([
-      { recipeId: recipe._id, dateOfEvent: Date.now(), rating: 4 },
-      { recipeId: recipe._id, dateOfEvent: Date.now(), rating: 3 },
-      { recipeId: recipe._id, dateOfEvent: Date.now(), rating: 2 },
-      { recipeId: recipe._id, dateOfEvent: Date.now(), rating: 1 },
+      { recipe: recipe._id, dateOfEvent: Date.now(), rating: 4 },
+      { recipe: recipe._id, dateOfEvent: Date.now(), rating: 3 },
+      { recipe: recipe._id, dateOfEvent: Date.now(), rating: 2 },
+      { recipe: recipe._id, dateOfEvent: Date.now(), rating: 1 },
     ]);
   
 
@@ -125,7 +119,7 @@ describe('app routes', () => {
           recipe: recipe._id.toString(),
           dateOfEvent: expect.any(String),
           notes: 'Could have been better',
-          rating: 5,
+          rating: 3,
           __v: 0
         });
       });

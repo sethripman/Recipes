@@ -30,15 +30,9 @@ describe('app routes', () => {
       {
         recipe: recipe._id,
         dateOfEvent: new Date(),
-        notes: 'Grilled rubber would have been better',
-        rating: 1
-      },
-      {
-        recipe: recipe._id,
-        dateOfEvent: new Date(),
         notes: 'Could have been better',
         rating: 3
-      },
+      }
     ]);
   });
 
