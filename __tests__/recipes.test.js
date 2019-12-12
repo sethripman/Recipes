@@ -5,6 +5,7 @@ const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const Recipe = require('../lib/models/Recipe');
+const Event = require('../lib/models/Event');
 
 describe('app routes', () => {
   beforeAll(() => {
@@ -13,6 +14,32 @@ describe('app routes', () => {
 
   beforeEach(() => {
     return mongoose.connection.dropDatabase();
+  });
+
+  let recipe;
+  let events;
+  beforeEach(async() => {
+    recipe = await Recipe.create(
+      { name: 'cookies', directions: [
+        'preheat oven to 375',
+        'mix ingredients',
+        'put dough on cookie sheet',
+        'bake for 10 minutes'
+      ], ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }] });
+    events = await Event.create([
+      {
+        recipe: recipe._id,
+        dateOfEvent: new Date(),
+        notes: 'Grilled rubber would have been better',
+        rating: 1
+      },
+      {
+        recipe: recipe._id,
+        dateOfEvent: new Date(),
+        notes: 'Could have been better',
+        rating: 3
+      },
+    ]);
   });
 
   afterAll(() => {
@@ -67,18 +94,20 @@ describe('app routes', () => {
       });
   });
   it('gets a recipe by id', async() => {
-    const recipe = await Recipe.create(
-      { name: 'cookies', directions: ['throw in freezer'], ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }] }
-    );
-
     return request(app)
       .get(`/api/v1/recipes/${recipe._id}`)
       .then(res => {
         expect(res.body).toEqual({
           _id: recipe._id.toString(),
           name: recipe.name,
-          directions: ['throw in freezer'],
+          directions: [
+            'preheat oven to 375',
+            'mix ingredients',
+            'put dough on cookie sheet',
+            'bake for 10 minutes'
+          ],
           ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
+          events: JSON.parse(JSON.stringify(events)),
           __v: recipe.__v
         });
       });
@@ -87,17 +116,6 @@ describe('app routes', () => {
  
 
   it('updates a recipe by id', async() => {
-    const recipe = await Recipe.create({
-      name: 'cookies',
-      directions: [
-        'preheat oven to 375',
-        'mix ingredients',
-        'put dough on cookie sheet',
-        'bake for 10 minutes'
-      ],
-      ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }]
-    });
-
     return request(app)
       .patch(`/api/v1/recipes/${recipe._id}`)
       .send({ name: 'good cookies' })
@@ -117,10 +135,6 @@ describe('app routes', () => {
       });
   });
   it('can delete a recipe with DELETE', async() => {
-    const recipe = await Recipe.create({
-      name: 'cookies', directions: ['throw in freezer'], ingredients: [{ amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }] 
-    });
-
     return request(app)
       .delete(`/api/v1/recipes/${recipe._id}`)
       .then(res => {
@@ -131,6 +145,11 @@ describe('app routes', () => {
           ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
           __v: recipe.__v
         });
+
+        return Event.find();
+      })
+      .then(events => {
+        expect(events).toHaveLength(0);
       });
   });
 });
