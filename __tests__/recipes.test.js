@@ -141,7 +141,12 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           _id: recipe._id.toString(),
           name: recipe.name,
-          directions: ['throw in freezer'],
+          directions: [
+            'preheat oven to 375',
+            'mix ingredients',
+            'put dough on cookie sheet',
+            'bake for 10 minutes'
+          ],
           ingredients: [{ _id: expect.any(String), amount: 3, measurement: 'tablespoon', name: 'Brown Suger' }],
           __v: recipe.__v
         });
