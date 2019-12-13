@@ -91,7 +91,7 @@ describe('app routes', () => {
     return request(app)
       .get(`/api/v1/recipes/${recipe._id}`)
       .then(res => {
-        expect(res.body).toEqual({
+        expect(res.body).toMatchObject({
           _id: recipe._id.toString(),
           name: recipe.name,
           directions: [
